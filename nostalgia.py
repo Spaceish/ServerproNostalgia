@@ -77,7 +77,3 @@ def start():
         print("OK")
     else:
         print("NOT OK")
-
-get_servers_info()
-stop()
-get_servers_info()
