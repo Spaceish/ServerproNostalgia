@@ -2,7 +2,7 @@ import discord
 import nostalgia
 from discord.ext.commands import Bot as eu
 
-talgic = eu(command_preifx="ALA MICU ")
+talgic = eu(command_prefix="ALA MICU ")
 
 @talgic.event
 async def on_ready():
