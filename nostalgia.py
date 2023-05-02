@@ -1,4 +1,6 @@
 import requests
+import time
+import shutil
 
 base = "https://server.pro/"
 
@@ -34,6 +36,8 @@ endpoints = {
     "server state" : f"server/state", # host dependant
     "server stop" : f"server/stop", # host dependant
     "server start" : f"server/start", # host dependant
+    "get captcha" : f"{base}api/captcha/get", # timestamp dependant
+    "server renew" : f"{base}api/server/renew",
 }
 
 response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -77,3 +81,27 @@ def start():
         print("OK")
     else:
         print("NOT OK")
+        return "NOT OK"
+
+def renew():
+    timestamp = int(time.time())
+    r = requests.get(f"{endpoints['get captcha']}?{timestamp}", cookies=cookies, headers=headers)
+
+    local_filename = "captcha.png"
+    with requests.get(f"{endpoints['get captcha']}?{timestamp}", stream=True, cookies=cookies, headers=headers) as r:
+        with open(local_filename, 'wb') as f:
+            shutil.copyfileobj(r.raw, f)
+
+def renew_submit(text):
+    sv_inf = get_servers_info()
+    print("Renewing server")
+    id = sv_inf[0]
+    r = requests.post(endpoints["server renew"], cookies=cookies, headers=headers, data={
+        "id" : id,
+        "text" : text
+    })
+    if r.text == str(True).lower():
+        print("OK")
+    else:
+        print("NOT OK")
+        return "NOT OK"

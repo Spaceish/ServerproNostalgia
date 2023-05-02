@@ -2,7 +2,9 @@ import discord
 import nostalgia
 from discord.ext.commands import Bot as eu
 
-talgic = eu(command_prefix="ALA MICU ", self_bot=True)
+prefixu = " UCIM ALA"[::-1]
+
+talgic = eu(command_prefix=prefixu, self_bot=True)
 
 # command_prefix="ALA MICU "
 
@@ -55,6 +57,23 @@ async def informatii(ctx):
     await ctx.reply("Ai cerut niste informatii despre server sefule")
     informatii = nostalgia.get_servers_info()[2]
     await ctx.send(f"informatiile cerute: \n\tStatusul: {informatii['online']}\n\tjucatori: {informatii['players']}")
+
+@talgic.command()
+async def verificare(ctx):
+    print(f"{ctx.author} a cerut o verificare")
+    nostalgia.renew()
+    await ctx.reply(f"Ai cerut o verificare sefule, verifica cu {prefixu}verifica textul-ce-apare-in-imagine")
+    await ctx.send(file=discord.File('captcha.png'))
+    await ctx.send(f'{ctx.author.mention} a cerut o verificare')
+
+@talgic.command()
+async def verifica(ctx, text):
+    print(f"{ctx.author} a facut o verificare cu textul {text}")
+    n = nostalgia.renew_submit(text)
+    if n == "NOT OK":
+        ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
+    if n == "OK":
+        ctx.reply("Gata sefule")
 
 
 token = "AgR_CRISVf0pLEULp0k7Zfi53PDDkfH0ZqWl4K.dwOBsG.1MjNygDNzADO0UTO1QzN1UDO"[::-1]
