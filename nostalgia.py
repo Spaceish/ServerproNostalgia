@@ -33,11 +33,12 @@ data = {
 
 endpoints = {
     "user info" : f"{base}api/meta/get",
-    "server state" : f"server/state", # host dependant
-    "server stop" : f"server/stop", # host dependant
-    "server start" : f"server/start", # host dependant
+    "server state" : "server/state", # host dependant
+    "server stop" : "server/stop", # host dependant
+    "server start" : "server/start", # host dependant
     "get captcha" : f"{base}api/captcha/get", # timestamp dependant
     "server renew" : f"{base}api/server/renew",
+    "server resources" : "server/resources", # host dependant
 }
 
 response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -57,6 +58,16 @@ def get_servers_info():
             "online" : resp["online"],
             "players" : resp["players"]
         }]
+
+def get_servers_statistics():
+    sv_inf = get_servers_info()
+    host = sv_inf[1]
+    id = sv_inf[0]
+    res = requests.post(f'{host}/{endpoints["server resources"]}', cookies=cookies, headers=headers, data={
+        "id" : id
+    })
+    stats = res.json()
+    return [stats["cpu"], stats["mem"], stats["disk"]]
 
 def stop():
     sv_inf = get_servers_info()
@@ -105,3 +116,5 @@ def renew_submit(text):
     else:
         print("NOT OK")
         return "NOT OK"
+
+get_servers_statistics()
