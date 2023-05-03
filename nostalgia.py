@@ -39,25 +39,33 @@ endpoints = {
     "get captcha" : f"{base}api/captcha/get", # timestamp dependant
     "server renew" : f"{base}api/server/renew",
     "server resources" : "server/resources", # host dependant
+    "server resume enqueue" : f"{base}api/queue/enqueue",
+    "server restart" : "server/restart", # host dependant
 }
 
-response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
-servers = response.json()["servers"]
+# response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
+# servers = response.json()["servers"]
 
 def get_servers_info():
+    response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
+    servers = response.json()["servers"]
     for sv in servers:
         print(f'Found server, Server ID: {sv}\nServer name: {servers[sv]["name"]}\nServer version: {servers[sv]["version"]}\nServer state: {servers[sv]["state"]}\nServer host: {servers[sv]["host"]}')
         host = f"https://{servers[sv]['host']}"
-        res = requests.post(f"{host}/{endpoints['server state']}", cookies=cookies, headers=headers, data={
-            "id" : sv
-        })
-        resp = res.json()
-        # print(res.text)
-        print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
-        return [sv, host, {
-            "online" : resp["online"],
-            "players" : resp["players"]
-        }]
+        try:
+            res = requests.post(f"{host}/{endpoints['server state']}", cookies=cookies, headers=headers, data={
+                "id" : sv
+            })
+            resp = res.json()
+            return [sv, host, {
+                "online" : resp["online"],
+                "players" : resp["players"]
+            }, servers[sv]["name"]]
+            # print(res.text)
+            print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
+        except:
+            print("Assuming server is inactive")
+            return [sv, host, servers[sv]["name"]]
 
 def get_servers_statistics():
     sv_inf = get_servers_info()
@@ -117,4 +125,46 @@ def renew_submit(text):
         print("NOT OK")
         return "NOT OK"
 
-get_servers_statistics()
+def resume():
+    timestamp = int(time.time())
+
+    local_filename = "captcha.png"
+    with requests.get(f"{endpoints['get captcha']}?{timestamp}", stream=True, cookies=cookies, headers=headers) as res:
+        with open(local_filename, 'wb') as fl:
+            shutil.copyfileobj(res.raw, fl)
+
+def resume_submit(text):
+    sv_info = get_servers_info()
+    id = sv_info[0]
+    config = {
+        "id" : id,
+        "plan" : "free",
+        "pack" : "low",
+        "name" : sv_info[2],
+        "service" : "mc",
+        "typeId" : 1414,
+        "location" : "ca",
+        "price" : 0,
+        "payment" : "",
+        "captcha" : text,
+        "token" : ""
+    }
+    res = requests.post(endpoints["server resume enqueue"], cookies=cookies, headers=headers, data=config)
+    rsp = res.json()
+    if rsp["result"] == "transfer":
+        print("OK")
+    else:
+        print("NOT OK")
+        return "NOT OK"
+
+def restart():
+    sv_inf = get_servers_info()
+    print("Restarting")
+    host = sv_inf[1]
+    res = requests.post(f"{host}/{endpoints['server restart']}", cookies=cookies, headers=headers, data={
+        "id" : sv_inf[0]
+    })
+    if res.text == str(True).lower():
+        print("OK")
+    else:
+        print("NOT OK")

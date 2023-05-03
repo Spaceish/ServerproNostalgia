@@ -4,7 +4,7 @@ from discord.ext.commands import Bot as eu
 
 prefixu = " UCIM ALA"[::-1]
 
-talgic = eu(command_prefix=prefixu, self_bot=False)
+talgic = eu(command_prefix=prefixu, self_bot=True)
 
 # command_prefix="ALA MICU "
 
@@ -56,7 +56,7 @@ async def informatii(ctx):
     print(f"{ctx.author} a cerut niste informatii despre server")
     await ctx.reply("Ai cerut niste informatii despre server sefule")
     informatii = nostalgia.get_servers_info()[2]
-    await ctx.send(f"informatiile cerute: \n\tStatusul: {informatii['online']}\n\tjucatori: {informatii['players']}")
+    await ctx.send(f"informatiile cerute: \n\tStatusul: {informatii['online']}\n\tJucatori: {informatii['players']}")
 
 @talgic.command()
 async def verificare(ctx):
@@ -71,10 +71,41 @@ async def verifica(ctx, text):
     print(f"{ctx.author} a facut o verificare cu textul {text}")
     n = nostalgia.renew_submit(text)
     if n == "NOT OK":
-        ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
-    if n == "OK":
-        ctx.reply("Gata sefule")
+        await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
+    else:
+        await ctx.reply("Gata sefule")
 
+@talgic.command()
+async def stats(ctx):
+    print(f"{ctx.author} a cerut informatiile serverului")
+    sv_stats = nostalgia.get_servers_statistics()
+    await ctx.reply("Ai cerut informatiile despre server")
+    await ctx.reply("Uite informatiile cerute sefule:\n\tProcesoru: {sv_stats[0]}\n\tMemoria RAM: {sv_stats[1]}")
+    await ctx.send(f"Sefu {ctx.author.mention} a cerut statistici despre server.")
+
+@talgic.command()
+async def reverificare(ctx):
+    print(f"{ctx.author} a cerut o reverificare a serverului")
+    nostalgia.resume()
+    await ctx.reply(f"Ai cerut o reverificare sefule, reverifica cu {prefixu}reverifica textul-ce-apare-in-imagine")
+    await ctx.send(file=discord.File('captcha.png'))
+    await ctx.send(f'{ctx.author.mention} a cerut o reverificare')
+
+@talgic.command()
+async def reverifica(ctx, text):
+    print(f"{ctx.author} a facut o reverificare cu textul {text}")
+    n = nostalgia.resume_submit(text)
+    if n == "NOT OK":
+        await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda reverificare odata")
+    else:
+        await ctx.reply("Gata sefule")
+
+@talgic.command()
+async def restart(ctx):
+    print(f"{ctx.author} a restartat serverul")
+    await ctx.reply("Acum se va restarta serverul sefule")
+    nostalgia.stop()
+    await ctx.send(f"Sefu {ctx.author.mention} a restartat serverul")
 
 token = "AgR_CRISVf0pLEULp0k7Zfi53PDDkfH0ZqWl4K.dwOBsG.1MjNygDNzADO0UTO1QzN1UDO"[::-1]
 
