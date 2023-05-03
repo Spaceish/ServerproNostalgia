@@ -4,7 +4,7 @@ from discord.ext.commands import Bot as eu
 
 prefixu = " UCIM ALA"[::-1]
 
-talgic = eu(command_prefix=prefixu, self_bot=True)
+talgic = eu(command_prefix=prefixu, self_bot=False)
 
 # command_prefix="ALA MICU "
 
