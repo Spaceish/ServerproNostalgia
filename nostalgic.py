@@ -80,7 +80,7 @@ async def stats(ctx):
     print(f"{ctx.author} a cerut informatiile serverului")
     sv_stats = nostalgia.get_servers_statistics()
     await ctx.reply("Ai cerut informatiile despre server")
-    await ctx.reply("Uite informatiile cerute sefule:\n\tProcesoru: {sv_stats[0]}\n\tMemoria RAM: {sv_stats[1]}")
+    await ctx.reply(f"Uite informatiile cerute sefule:\n\tProcesoru: {sv_stats[0]}\n\tMemoria RAM: {sv_stats[1]}")
     await ctx.send(f"Sefu {ctx.author.mention} a cerut statistici despre server.")
 
 @talgic.command()
