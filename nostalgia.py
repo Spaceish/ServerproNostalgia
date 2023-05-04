@@ -41,6 +41,7 @@ endpoints = {
     "server resources" : "server/resources", # host dependant
     "server resume enqueue" : f"{base}api/queue/enqueue",
     "server restart" : "server/restart", # host dependant
+    "server list worlds" : "server/listWorlds", # host dependant
 }
 
 # response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -56,16 +57,20 @@ def get_servers_info():
             res = requests.post(f"{host}/{endpoints['server state']}", cookies=cookies, headers=headers, data={
                 "id" : sv
             })
+            rs = requests.post(f"{host}/{endpoints['server list worlds']}", cookies=cookies, headers=headers, data={
+            	"id" : sv
+            })
+            rsp = rs.json()
             resp = res.json()
+            # print(res.text)
+            print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
             return [sv, host, {
                 "online" : resp["online"],
                 "players" : resp["players"]
-            }, servers[sv]["name"]]
-            # print(res.text)
-            print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
+            }, servers[sv]["name"], servers[sv]["version"], rsp, 1]
         except:
             print("Assuming server is inactive")
-            return [sv, host, servers[sv]["name"]]
+            return [sv, host, servers[sv]["name"], servers[sv]["version"], 0]
 
 def get_servers_statistics():
     sv_inf = get_servers_info()
