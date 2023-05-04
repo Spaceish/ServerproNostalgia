@@ -173,3 +173,4 @@ def restart():
         print("OK")
     else:
         print("NOT OK")
+        return "NOT OK"

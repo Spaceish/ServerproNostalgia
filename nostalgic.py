@@ -41,15 +41,21 @@ async def on_ready():
 async def porneste(ctx):
     print(f"{ctx.author} a pornit serverul")
     await ctx.reply("Acum se va porni serverul sefule")
-    nostalgia.start()
-    await ctx.send(f"Sefu {ctx.author.mention} a pornit serverul")
+    n = nostalgia.start()
+    if n == None:
+        await ctx.send(f"Sefu {ctx.author.mention} a restartat serverul")
+    else:
+        await ctx.send(f"Sefu {ctx.author.mention} nu a restartat serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
 async def opreste(ctx):
     print(f"{ctx.author} a oprit serverul")
     await ctx.reply("Acum se va opri serverul sefule")
-    nostalgia.stop()
-    await ctx.send(f"Sefu {ctx.author.mention} a oprit serverul")
+    n = nostalgia.stop()
+    if n == None:
+        await ctx.send(f"Sefu {ctx.author.mention} a oprit serverul")
+    else:
+        await ctx.send(f"Sefu {ctx.author.mention} nu a oprit serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
 async def informatii(ctx):
@@ -115,8 +121,11 @@ async def reverifica(ctx, text):
 async def restart(ctx):
     print(f"{ctx.author} a restartat serverul")
     await ctx.reply("Acum se va restarta serverul sefule")
-    nostalgia.stop()
-    await ctx.send(f"Sefu {ctx.author.mention} a restartat serverul")
+    n = nostalgia.restart()
+    if n == None:
+        await ctx.send(f"Sefu {ctx.author.mention} a restartat serverul")
+    else:
+        await ctx.send(f"Sefu {ctx.author.mention} nu a restartat serverul din cauza unei PRRRRRbleme")
 
 token = "AgR_CRISVf0pLEULp0k7Zfi53PDDkfH0ZqWl4K.dwOBsG.1MjNygDNzADO0UTO1QzN1UDO"[::-1]
 
