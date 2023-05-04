@@ -55,8 +55,19 @@ async def opreste(ctx):
 async def informatii(ctx):
     print(f"{ctx.author} a cerut niste informatii despre server")
     await ctx.reply("Ai cerut niste informatii despre server sefule")
-    informatii = nostalgia.get_servers_info()[2]
-    await ctx.send(f"informatiile cerute: \n\tStatusul: {informatii['online']}\n\tJucatori: {informatii['players']}")
+    info = nostalgia.get_servers_info()
+    print(info)
+    informatii = info[2]
+    nume = info[3] if info[-1] == 1 else info[2]
+    versiunea = info[4] if info[-1] == 1 else info[3]
+    lumile = info[5] if info[-1] == 1 else info[4]
+    await ctx.send(f"informatiile cerute: \n\tStatusul: {'Nu e pornit' if informatii['online'] == str(False) else 'Este pornit'}\n\tJucatori: {'nu e nimeni' if informatii['players'] == str(False) else informatii['players']}")
+    await ctx.reply(f"Numele serverului: {nume}")
+    await ctx.reply(f"Versiunea serverului: {versiunea}")
+    await ctx.reply("Lumile serverului:")
+    for lume in lumile:
+    	await ctx.reply(f"\n\t{lume}")
+    await ctx.send(f"Sefu {ctx.author.mention} a cerut niste informatii despre server")
 
 @talgic.command()
 async def verificare(ctx):
