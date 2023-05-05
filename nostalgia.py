@@ -42,6 +42,8 @@ endpoints = {
     "server resume enqueue" : f"{base}api/queue/enqueue",
     "server restart" : "server/restart", # host dependant
     "server list worlds" : "server/listWorlds", # host dependant
+    "server files save" : "server/files/save", # host dependant
+    "server files get" : "server/files/get", # host dependant
 }
 
 # response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -65,7 +67,7 @@ def get_servers_info():
             # print(res.text)
             print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
             return [sv, host, {
-                "online" : resp["online"],
+                "online" : resp["online"]onlinonlin
                 "players" : resp["players"]
             }, servers[sv]["name"], servers[sv]["version"], rsp, 1]
         except:
@@ -174,3 +176,33 @@ def restart():
     else:
         print("NOT OK")
         return "NOT OK"
+
+def modify_motd(text):
+    sv_info = get_servers_info()
+    host = sv_info[1]
+    id = sv_info[0]
+
+    config = {
+        "path" : "/server.properties",
+        "id" : id
+    }
+
+    res = requests.post(f"{host}/{endpoints['server files get']}", cookies=cookies, headers=headers, data=config)
+    prop = res.text
+
+    with open('server.properties', 'w+') as sprop:
+        sprop.write(prop)
+        for line in sprop:
+            if line.startswith("motd="):
+                line = f"motd=Server.pro | {text}"
+        prop = sprop.read()
+
+    config = {
+        "path" : "/server.properties",
+        "data" : prop,
+        "id" : id
+    }
+    
+    res = requests.post(f"{host}/{endpoints['server files save']}", cookies=cookies, headers=headers, data=config)
+
+modify_motd("margarina borsec")
