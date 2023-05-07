@@ -136,7 +136,7 @@ async def backup(ctx):
     await ctx.send(f"Backupu se numeste : {n[0]}")
     await ctx.send(f"Sefu {ctx.author.mention} a facut backup serverului")
 
-token = "AgR_CRISVf0pLEULp0k7Zfi53PDDkfH0ZqWl4K.dwOBsG.1MjNygDNzADO0UTO1QzN1UDO"[::-1]
+token = "M1xc3d4zwyA2hQKLAUBuUPI8kl-agzZh8QxJy-.a4BrcG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
 
 # talgic1 = talgic()
 # talgic1.run(token)

@@ -243,7 +243,7 @@ def backup():
     server = gofile.getServer()
     print(server)
 
-    upl = json.loads(gofile.uploadFile(fn))
+    upl = gofile.uploadFile(fn)
     file_name = upl["fileName"]
     link = upl["downloadPage"]
     print("File name = " + file_name)
