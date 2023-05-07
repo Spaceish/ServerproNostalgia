@@ -1,6 +1,10 @@
 import requests
 import time
 import shutil
+import os
+import gofile
+import json
+import pymongo
 
 base = "https://server.pro/"
 
@@ -44,6 +48,8 @@ endpoints = {
     "server list worlds" : "server/listWorlds", # host dependant
     "server files save" : "server/files/save", # host dependant
     "server files get" : "server/files/get", # host dependant
+    # "server send" : "server/send", # host dependant
+    "server files tar" : "files/tar", # host dependant
 }
 
 # response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -67,12 +73,12 @@ def get_servers_info():
             # print(res.text)
             print(f"Server info: \n\tonline: {resp['online']}\n\tplayers: {resp['players']}")
             return [sv, host, {
-                "online" : resp["online"]onlinonlin
+                "online" : resp["online"],
                 "players" : resp["players"]
             }, servers[sv]["name"], servers[sv]["version"], rsp, 1]
         except:
             print("Assuming server is inactive")
-            return [sv, host, servers[sv]["name"], servers[sv]["version"], 0]
+            return [sv, host, servers[sv]["name"], servers[sv]["version"], rsp, 0]
 
 def get_servers_statistics():
     sv_inf = get_servers_info()
@@ -177,32 +183,155 @@ def restart():
         print("NOT OK")
         return "NOT OK"
 
-def modify_motd(text):
+def backup():
     sv_info = get_servers_info()
-    host = sv_info[1]
+    # worlds = sv_info[5]
+    # print(worlds)
     id = sv_info[0]
+    print(id)
+    host = sv_info[1]
+    print(host)
+    # worlds.append("logs")
+    # print(worlds)
+    # print(str(worlds))
+    # new_worlds = "["
+    # i = 0
+    # print(len(worlds))
+    # for i, world in enumerate(worlds):
+    #     if i == len(worlds) - 1:
+    #         new_worlds += "'" + world + "'" + ']'
+    #     else:
+    #         new_worlds += "'" + world + "'" + ', '
+    #     print(i)
 
-    config = {
-        "path" : "/server.properties",
-        "id" : id
+    # print(new_worlds)
+
+    cookies = {
+        'cookie': 'zpwrs45raywxuwyktn1qe8p5v9wxhi0pll3kotqq',
     }
 
-    res = requests.post(f"{host}/{endpoints['server files get']}", cookies=cookies, headers=headers, data=config)
-    prop = res.text
-
-    with open('server.properties', 'w+') as sprop:
-        sprop.write(prop)
-        for line in sprop:
-            if line.startswith("motd="):
-                line = f"motd=Server.pro | {text}"
-        prop = sprop.read()
-
-    config = {
-        "path" : "/server.properties",
-        "data" : prop,
-        "id" : id
+    headers = {
+        'authority': f"{host.replace('https://', '')}",
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'accept-language': 'en-US,en;q=0.5',
+        'cache-control': 'max-age=0',
+        'content-type': 'application/x-www-form-urlencoded',
+        # 'cookie': 'cookie=zpwrs45raywxuwyktn1qe8p5v9wxhi0pll3kotqq',
+        'origin': 'null',
+        'sec-ch-ua': '"Brave";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'same-site',
+        'sec-fetch-user': '?1',
+        'sec-gpc': '1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36',
     }
+
+    data = {
+        'id' : f'{id}',
+        'path' : '//',
+        'files' : '["logs","world"]',
+    }
+    fn = f"backup{time.time()}.tar"
+    response = requests.post(f'{host}/{endpoints["server files tar"]}/', cookies=cookies, headers=headers, data=data)
+    with open(fn, "wb") as bk:
+        bk.write(response.content)
+    print("dONE")
+    server = gofile.getServer()
+    print(server)
+
+    upl = json.loads(gofile.uploadFile(fn))
+    file_name = upl["fileName"]
+    link = upl["downloadPage"]
+    print("File name = " + file_name)
+    print("File link = " + link)
+    os.remove(fn)
+    lk = "mongodb+srv://alamicu:undeema@alamicu.pebemwy.mongodb.net/?retryWrites=true&w=majority"
+    client = pymongo.MongoClient(lk)
+    db = client["badaalamicuundeema"]
+    col = db["backups"]
+    infp = {
+        "ora in stampila" : fn.replace(
+            "backup", ""
+        ).replace(
+            ".tar", ""
+        ),
+        "numele" : fn,
+        "link" : link
+    }
+    col.insert_one(infp)
+    return [file_name, link]
+    # worlds = str(worlds + ["logs"])
+    # print(config)
+    # with open("test.py", "r+") as sts:
+    #     data = sts.read()
+    #     print(data)
+    #     new = data.replace(
+    #         "$host$", host
+    #     ).replace(
+    #         "$id$", id
+    #     ).replace(
+    #         "$endpoint$", endpoints["server files tar"]
+    #     ).replace(
+    #         "$worlds$", worlds
+    #     )
+    #     print(new)
+    #     sts.seek(0)
+    #     sts.write(new)
+    # os.system("python test.py")
+    # with open("test.py") as sf:
+    #     sf.seek(0)
+    #     sf.write(data)
+
+# def send_command(command):
+#     sv_info = get_servers_info()
+#     host = sv_info[1]
+#     id = sv_info[0]
+#     res = requests.post(f"{host}/{endpoints['server send']}", cookies=cookies, headers=headers, data={
+#         "cmd" : command,
+#         "id" : id
+#     })
+
+#     if res.text == str(True).lower():
+#         print("OK")
+#     else:
+#         print("NOT OK")
+#         return "NOT OK"
+
+# def modify_motd(text):
+#     sv_info = get_servers_info()
+#     host = sv_info[1]
+#     id = sv_info[0]
+
+#     config = {
+#         "path" : "/server.properties",
+#         "id" : id
+#     }
+
+#     res = requests.post(f"{host}/{endpoints['server files get']}", cookies=cookies, headers=headers, data=config)
+#     prop = res.text
+
+#     with open('server.properties', 'w+') as sprop:
+#         sprop.write(prop)
+#         for line in sprop:
+#             if line.startswith("motd="):
+#                 line = f"motd=Server.pro | {text}"
+#         prop = sprop.read()
+
+#     config = {
+#         "path" : "/server.properties",
+#         "data" : prop,
+#         "id" : id
+#     }
     
-    res = requests.post(f"{host}/{endpoints['server files save']}", cookies=cookies, headers=headers, data=config)
+#     res = requests.post(f"{host}/{endpoints['server files save']}", cookies=cookies, headers=headers, data=config)
 
-modify_motd("margarina borsec")
+# def get_player_coords(player):
+#     send_command(f"/execute as {player} run say Coordonatele lui {player} sunt [X,Y,Z]")
+
+# modify_motd("margarina borsec")
+# backup()
+# get_servers_info()

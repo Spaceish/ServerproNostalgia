@@ -127,6 +127,15 @@ async def restart(ctx):
     else:
         await ctx.send(f"Sefu {ctx.author.mention} nu a restartat serverul din cauza unei PRRRRRbleme")
 
+@talgic.command()
+async def backup(ctx):
+    print(f"{ctx.author} a cerut un backup la server")
+    await ctx.reply("Acum se va face backup sefule")
+    n = nostalgia.backup()
+    await ctx.send(f"uite linkul la backup : {n[1]}")
+    await ctx.send(f"Backupu se numeste : {n[0]}")
+    await ctx.send(f"Sefu {ctx.author.mention} a facut backup serverului")
+
 token = "AgR_CRISVf0pLEULp0k7Zfi53PDDkfH0ZqWl4K.dwOBsG.1MjNygDNzADO0UTO1QzN1UDO"[::-1]
 
 # talgic1 = talgic()
