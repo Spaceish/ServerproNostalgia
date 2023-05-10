@@ -43,9 +43,9 @@ async def porneste(ctx):
     await ctx.reply("Acum se va porni serverul sefule")
     n = nostalgia.start()
     if n == None:
-        await ctx.send(f"Sefu {ctx.author.mention} a restartat serverul")
+        await ctx.send(f"Sefu {ctx.author.mention} a pornit serverul")
     else:
-        await ctx.send(f"Sefu {ctx.author.mention} nu a restartat serverul din cauza unei PRRRRRbleme")
+        await ctx.send(f"Sefu {ctx.author.mention} nu a pornit serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
 async def opreste(ctx):
