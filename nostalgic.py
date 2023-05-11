@@ -1,8 +1,40 @@
 import discord
 import nostalgia
 from discord.ext.commands import Bot as eu
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
 prefixu = " UCIM ALA"[::-1]
+
+def asta_primesti(nume):
+    # deschide imaginea
+    img = Image.open("resurse/cacat.png")
+
+    # font personalizat
+    font = ImageFont.truetype("resurse/OpenSans_Condensed-SemiBold.ttf", 50)
+
+    # adauga grafici 2d in imagine
+    i1 = ImageDraw.Draw(img)
+
+    # adauga text la imagine
+    i1.text((49, -10), nume, font=font, fill=(0, 0, 0))
+
+    # arata imaginea
+    # img.show()
+
+    # salveaza imaginea
+    img.save('cac.png')
+
+def whitelist(comanda, id=None):
+    if comanda == "citeste":
+        with open("config/whitelist", "r") as wl:
+            whitelist = wl.readlines()
+        return whitelist
+    elif comanda == "adauga":
+        with open("config/whitelist", "a") as wl:
+            wl.write(id)
+
 
 talgic = eu(command_prefix=prefixu, self_bot=False)
 
@@ -39,6 +71,14 @@ async def on_ready():
 
 @talgic.command()
 async def porneste(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de pornit serverul, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a pornit serverul")
     await ctx.reply("Acum se va porni serverul sefule")
     n = nostalgia.start()
@@ -49,6 +89,14 @@ async def porneste(ctx):
 
 @talgic.command()
 async def opreste(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de oprit serverul, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a oprit serverul")
     await ctx.reply("Acum se va opri serverul sefule")
     n = nostalgia.stop()
@@ -59,6 +107,14 @@ async def opreste(ctx):
 
 @talgic.command()
 async def informatii(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de lua niste informatii despre server, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a cerut niste informatii despre server")
     await ctx.reply("Ai cerut niste informatii despre server sefule")
     info = nostalgia.get_servers_info()
@@ -77,6 +133,14 @@ async def informatii(ctx):
 
 @talgic.command()
 async def verificare(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de a cere o verificare a serveruluui, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a cerut o verificare")
     nostalgia.renew()
     await ctx.reply(f"Ai cerut o verificare sefule, verifica cu {prefixu}verifica textul-ce-apare-in-imagine")
@@ -85,6 +149,14 @@ async def verificare(ctx):
 
 @talgic.command()
 async def verifica(ctx, text):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de a verifica serverul, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a facut o verificare cu textul {text}")
     n = nostalgia.renew_submit(text)
     if n == "NOT OK":
@@ -94,6 +166,14 @@ async def verifica(ctx, text):
 
 @talgic.command()
 async def stats(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de a cere niste statistici despre server, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a cerut informatiile serverului")
     sv_stats = nostalgia.get_servers_statistics()
     await ctx.reply("Ai cerut informatiile despre server")
@@ -102,6 +182,14 @@ async def stats(ctx):
 
 @talgic.command()
 async def reverificare(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de cere o reverificare a serverului, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a cerut o reverificare a serverului")
     nostalgia.resume()
     await ctx.reply(f"Ai cerut o reverificare sefule, reverifica cu {prefixu}reverifica textul-ce-apare-in-imagine")
@@ -110,6 +198,14 @@ async def reverificare(ctx):
 
 @talgic.command()
 async def reverifica(ctx, text):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de reverifica serverul, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a facut o reverificare cu textul {text}")
     n = nostalgia.resume_submit(text)
     if n == "NOT OK":
@@ -119,6 +215,14 @@ async def reverifica(ctx, text):
 
 @talgic.command()
 async def restart(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de a restarta serverul, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a restartat serverul")
     await ctx.reply("Acum se va restarta serverul sefule")
     n = nostalgia.restart()
@@ -129,12 +233,22 @@ async def restart(ctx):
 
 @talgic.command()
 async def backup(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id not in lista_alba:
+        print(f"{ctx.author} a incercat de a face backup la server, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
     print(f"{ctx.author} a cerut un backup la server")
     await ctx.reply("Acum se va face backup sefule")
     n = nostalgia.backup()
     await ctx.send(f"uite linkul la backup : {n[1]}")
     await ctx.send(f"Backupu se numeste : {n[0]}")
     await ctx.send(f"Sefu {ctx.author.mention} a facut backup serverului")
+
+
 
 token = "M1xc3d4zwyA2hQKLAUBuUPI8kl-agzZh8QxJy-.a4BrcG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
 
