@@ -78,7 +78,7 @@ def get_servers_info():
             }, servers[sv]["name"], servers[sv]["version"], rsp, 1]
         except:
             print("Assuming server is inactive")
-            return [sv, host, servers[sv]["name"], servers[sv]["version"], rsp, 0]
+            return [sv, host, servers[sv]["name"], servers[sv]["version"], "Inactive", 0]
 
 def get_servers_statistics():
     sv_inf = get_servers_info()

@@ -30,8 +30,9 @@ def asta_primesti(nume):
 def whitelist(comanda, id=None):
     if comanda == "citeste":
         with open("config/whitelist", "r") as wl:
-            whitelist = wl.readlines()
-        return whitelist
+            whitelis = wl.read().split('<')
+        print(whitelis)
+        return whitelis
     elif comanda == "adauga":
         with open("config/whitelist", "a") as wl:
             wl.write(id)
@@ -73,7 +74,7 @@ async def on_ready():
 @talgic.command()
 async def porneste(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de pornit serverul, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -91,7 +92,7 @@ async def porneste(ctx):
 @talgic.command()
 async def opreste(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de oprit serverul, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -109,7 +110,7 @@ async def opreste(ctx):
 @talgic.command()
 async def informatii(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de lua niste informatii despre server, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -123,19 +124,25 @@ async def informatii(ctx):
     informatii = info[2]
     nume = info[3] if info[-1] == 1 else info[2]
     versiunea = info[4] if info[-1] == 1 else info[3]
-    lumile = info[5] if info[-1] == 1 else info[4]
-    await ctx.send(f"informatiile cerute: \n\tStatusul: {'Nu e pornit' if informatii['online'] == str(False) else 'Este pornit'}\n\tJucatori: {'nu e nimeni' if informatii['players'] == str(False) else informatii['players']}")
-    await ctx.reply(f"Numele serverului: {nume}")
-    await ctx.reply(f"Versiunea serverului: {versiunea}")
-    await ctx.reply("Lumile serverului:")
-    for lume in lumile:
-    	await ctx.reply(f"\n\t{lume}")
+    lumile = info[5] if info[-1] == 1 else "Nu se poate"
+    try:
+        await ctx.send(f"informatiile cerute: \n\tStatusul: {'Nu e pornit' if informatii['online'] == str(False) else 'Este pornit'}\n\tJucatori: {'nu e nimeni' if informatii['players'] == str(False) else informatii['players']}")
+        await ctx.reply(f"Numele serverului: {nume}")
+        await ctx.reply(f"Versiunea serverului: {versiunea}")
+        await ctx.reply("Lumile serverului:")
+    except:
+        await ctx.reply("Trb reverificare")
+    if type(lumile) == list:
+        for lume in lumile:
+            await ctx.reply(f"\n\t{lume}")
+    elif type(lumile) == str:
+        await ctx.reply(f'{lumile}')
     await ctx.send(f"Sefu {ctx.author.mention} a cerut niste informatii despre server")
 
 @talgic.command()
 async def verificare(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de a cere o verificare a serveruluui, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -151,7 +158,7 @@ async def verificare(ctx):
 @talgic.command()
 async def verifica(ctx, text):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de a verifica serverul, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -168,7 +175,7 @@ async def verifica(ctx, text):
 @talgic.command()
 async def stats(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de a cere niste statistici despre server, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -184,7 +191,7 @@ async def stats(ctx):
 @talgic.command()
 async def reverificare(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de cere o reverificare a serverului, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -200,7 +207,7 @@ async def reverificare(ctx):
 @talgic.command()
 async def reverifica(ctx, text):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de reverifica serverul, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -217,7 +224,7 @@ async def reverifica(ctx, text):
 @talgic.command()
 async def restart(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de a restarta serverul, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
@@ -235,7 +242,7 @@ async def restart(ctx):
 @talgic.command()
 async def backup(ctx):
     lista_alba = whitelist("citeste")
-    if ctx.author.id not in lista_alba:
+    if ctx.author.id in lista_alba:
         print(f"{ctx.author} a incercat de a face backup la server, dar e in lista neagra")
         await ctx.reply("Mananci cacat")
         asta_primesti(ctx.author.name)
