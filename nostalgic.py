@@ -171,7 +171,7 @@ async def verifica(ctx, text):
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
     else:
-        ai.save_to_set("captcha.png", text)
+        ai.save_to_set_db("captcha.png", text)
         await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
 
 @talgic.command()
@@ -221,7 +221,7 @@ async def reverifica(ctx, text):
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda reverificare odata")
     else:
-        ai.save_to_set("captcha.png", text)
+        ai.save_to_set_db("captcha.png", text)
         await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
 
 @talgic.command()
