@@ -5,6 +5,7 @@ import os
 import gofile
 import json
 import pymongo
+from datetime import datetime
 
 base = "https://server.pro/"
 
@@ -89,6 +90,9 @@ def get_servers_statistics():
     })
     stats = res.json()
     return [stats["cpu"], stats["mem"], stats["disk"]]
+
+def parse_timestamp(timestamp):
+        return datetime.fromtimestamp(timestamp).strftime('%c')
 
 def stop():
     sv_inf = get_servers_info()
@@ -235,7 +239,7 @@ def backup():
         'path' : '//',
         'files' : '["logs","world"]',
     }
-    fn = f"backup{time.time()}.tar"
+    fn = f"backup{parse_timestamp(time.time())}.tar"
     response = requests.post(f'{host}/{endpoints["server files tar"]}/', cookies=cookies, headers=headers, data=data)
     with open(fn, "wb") as bk:
         bk.write(response.content)

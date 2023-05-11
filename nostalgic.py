@@ -5,6 +5,7 @@ import os
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+import ai
 
 prefixu = " UCIM ALA"[::-1]
 
@@ -170,7 +171,8 @@ async def verifica(ctx, text):
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
     else:
-        await ctx.reply("Gata sefule")
+        ai.save_to_set("captcha.png", text)
+        await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
 
 @talgic.command()
 async def stats(ctx):
@@ -219,7 +221,8 @@ async def reverifica(ctx, text):
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda reverificare odata")
     else:
-        await ctx.reply("Gata sefule")
+        ai.save_to_set("captcha.png", text)
+        await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
 
 @talgic.command()
 async def restart(ctx):
