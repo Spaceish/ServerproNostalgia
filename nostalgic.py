@@ -1,6 +1,7 @@
 import discord
 import nostalgia
 from discord.ext.commands import Bot as eu
+import os
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
