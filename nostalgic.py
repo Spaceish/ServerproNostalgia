@@ -279,6 +279,7 @@ async def backupuri(ctx):
             Data Backupului: {backup["ora in stampila"]},
             Linkul Backupului: {backup["link"]}
         ''' + '\n'
+    await ctx.reply(backupur)
     await ctx.send(f"Sefu {ctx.author.mention} a cerut lista backupurilor serverului")
 
 
