@@ -239,7 +239,7 @@ def backup():
         'path' : '//',
         'files' : '["logs","world"]',
     }
-    fn = f"backup{parse_timestamp(time.time())}.tar"
+    fn = f"backup{parse_timestamp(time.time()).strip()}.tar"
     response = requests.post(f'{host}/{endpoints["server files tar"]}/', cookies=cookies, headers=headers, data=data)
     with open(fn, "wb") as bk:
         bk.write(response.content)
@@ -262,6 +262,8 @@ def backup():
             "backup", ""
         ).replace(
             ".tar", ""
+        ).replace(
+            " ", "_"
         ),
         "numele" : fn,
         "link" : link
@@ -289,6 +291,21 @@ def backup():
     # with open("test.py") as sf:
     #     sf.seek(0)
     #     sf.write(data)
+    
+def retrieve_backups():
+    lk = "mongodb+srv://alamicu:undeema@alamicu.pebemwy.mongodb.net/?retryWrites=true&w=majority"
+    client = pymongo.MongoClient(lk)
+    db = client["badaalamicuundeema"]
+    col = db["backups"]
+    cursor = col.find({})
+    # print(backups)
+    # cursor.rewind()
+    backups = list()
+    for backup in cursor:
+        print(backup)
+        backups.append(backup)
+    return backups
+    
 
 # def send_command(command):
 #     sv_info = get_servers_info()

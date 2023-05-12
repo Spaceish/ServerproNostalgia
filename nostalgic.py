@@ -258,7 +258,28 @@ async def backup(ctx):
     await ctx.send(f"uite linkul la backup : {n[1]}")
     await ctx.send(f"Backupu se numeste : {n[0]}")
     await ctx.send(f"Sefu {ctx.author.mention} a facut backup serverului")
-
+    
+@talgic.command()
+async def backupuri(ctx):
+    lista_alba = whitelist("citeste")
+    if ctx.author.id in lista_alba:
+        print(f"{ctx.author} a incercat de a cere lista backupurilor la server, dar e in lista neagra")
+        await ctx.reply("Mananci cacat")
+        asta_primesti(ctx.author.name)
+        await ctx.reply(file=discord.File('cac.png'))
+        os.remove("cac.png")
+        return
+    print(f"{ctx.author} a cerut lista backupurilor la server")
+    await ctx.reply("Acum se va lua lista backupurilor sefule")
+    n = nostalgia.retrieve_backups()
+    backupur = str()
+    for backup in n:
+        backupur += f'''
+            Numele Backupului : {backup["numele"]},
+            Data Backupului: {backup["ora in stampila"]},
+            Linkul Backupului: {backup["link"]}
+        ''' + '\n'
+    await ctx.send(f"Sefu {ctx.author.mention} a cerut lista backupurilor serverului")
 
 
 token = "M1xc3d4zwyA2hQKLAUBuUPI8kl-agzZh8QxJy-.a4BrcG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
