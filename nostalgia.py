@@ -121,7 +121,7 @@ def start():
 
 def renew():
     timestamp = int(time.time())
-    r = requests.get(f"{endpoints['get captcha']}?{timestamp}", cookies=cookies, headers=headers)
+    # r = requests.get(f"{endpoints['get captcha']}?{timestamp}", cookies=cookies, headers=headers)
 
     local_filename = "captcha.png"
     with requests.get(f"{endpoints['get captcha']}?{timestamp}", stream=True, cookies=cookies, headers=headers) as r:

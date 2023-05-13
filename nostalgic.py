@@ -282,7 +282,6 @@ async def backupuri(ctx):
     await ctx.reply(backupur)
     await ctx.send(f"Sefu {ctx.author.mention} a cerut lista backupurilor serverului")
 
-
 token = "M1xc3d4zwyA2hQKLAUBuUPI8kl-agzZh8QxJy-.a4BrcG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
 
 # talgic1 = talgic()
