@@ -3,8 +3,3 @@ Pillow
 gofile
 requests
 pymongo
-tensorflow
-opencv-python
-pytesseract
-imutils
-numpy
