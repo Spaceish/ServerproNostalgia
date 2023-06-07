@@ -65,5 +65,5 @@ def verify_key(received_key : str):
 
 def retrieve_trustedman():
     with open('config/trusted-man', 'r') as trusted_man:
-        trusted = trusted_man.read()
-    return int(trusted)
+        trusted = trusted_man.readlines()
+    return list(trusted)
