@@ -1,43 +1,10 @@
 import discord
 import nostalgia
 from discord.ext.commands import Bot as eu
-import os
 import auth
 import trustedman
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
 
 prefixu = " UCIM ALA"[::-1]
-
-def asta_primesti(nume):
-    # deschide imaginea
-    img = Image.open("resurse/cacat.png")
-
-    # font personalizat
-    font = ImageFont.truetype("resurse/OpenSans_Condensed-SemiBold.ttf", 50)
-
-    # adauga grafici 2d in imagine
-    i1 = ImageDraw.Draw(img)
-
-    # adauga text la imagine
-    i1.text((49, -10), nume, font=font, fill=(0, 0, 0))
-
-    # arata imaginea
-    # img.show()
-
-    # salveaza imaginea
-    img.save('cac.png')
-
-def whitelist(comanda, id=None):
-    if comanda == "citeste":
-        with open("config/whitelist", "r") as wl:
-            whitelis = wl.read().split('<')
-        print(whitelis)
-        return whitelis
-    elif comanda == "adauga":
-        with open("config/whitelist", "a") as wl:
-            wl.write(id)
 
 
 talgic = eu(command_prefix=prefixu, self_bot=False)
@@ -45,22 +12,21 @@ talgic = eu(command_prefix=prefixu, self_bot=False)
 @talgic.event
 async def on_ready():
     print("Gattaaaa")
-    global trust_key
     trust_key = auth.generate_key()
     print(f"S-a generat cheia de autentificare : {trust_key}")
-    trustedman.send_key(talgic, trust_key)
+    await trustedman.send_key(talgic, trust_key)
     print("S-a trimis cheia de autentificare la trusted.")
     
 @talgic.command()
 async def test(ctx, key):
-    new_key = trustedman.check_key(talgic, ctx, key, trust_key)
     print(f"Se verifica cheia : {key}")
-    await ctx.send("Yay")
-    trust_key = new_key
+    await ctx.send(f"Se verifica cheia : {key}")
+    await trustedman.check_key(talgic, ctx, key)
+    await ctx.send("Yay rezukltat")
 
 @talgic.command()
 async def porneste(ctx, key):
-    trustedman.check_key(talgic, ctx, key, trust_key)
+    trustedman.check_key(talgic, ctx, key)
     print(f"{ctx.author} a pornit serverul")
     await ctx.reply("Acum se va porni serverul sefule")
     n = nostalgia.start()
@@ -263,7 +229,7 @@ async def backupuri(ctx):
     await ctx.reply(backupur)
     await ctx.send(f"Sefu {ctx.author.mention} a cerut lista backupurilor serverului")
 
-token = "g51z9iqYMieurPHiIRIi6_1bH4V7kWiJbiGqlQ.xdJyIG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
+token = "04CeF6PuGacOoOS5KVB9cXioBp8v2amH3W4UN3.3ohgRG.AOxETOycDO2UTN0gzN4ETOwATM"[::-1]
 
 # talgic1 = talgic()
 # talgic1.run(token)
