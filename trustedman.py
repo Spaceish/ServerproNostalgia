@@ -46,12 +46,13 @@ async def check_key(client, ctx, key, sup="test"):
         await ctx.send(f"Cheia anterioara a fost {auth.load_key()}, s-a generat una noua")
         new_key = auth.generate_key()
         await send_key(client, new_key)
-        return
+        return False
     else:
         await ctx.send("Este ok. Te-ai autentificat cu succes sefule.")
         await ctx.send(f"Cheia anterioara a fost {auth.load_key()}, s-a generat una noua")
         new_key = auth.generate_key()
         await send_key(client, new_key)
+        return True
         # return new_key
         
     
