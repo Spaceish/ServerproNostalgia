@@ -56,7 +56,7 @@ async def check_key(client, ctx, key, sup="test"):
         
     
 async def send_key(client, key):
-    trusted = await auth.retrieve_trustedman()
+    trusted = auth.retrieve_trustedman()
     print(trusted)
     for tr in trusted:
         trustedtrusted = client.get_user(int(tr))
