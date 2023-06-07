@@ -26,7 +26,7 @@ async def test(ctx, key):
 
 @talgic.command()
 async def porneste(ctx, key):
-    trustedman.check_key(talgic, ctx, key)
+    trustedman.check_key(talgic, ctx, key, sup="de pornit serverul")
     print(f"{ctx.author} a pornit serverul")
     await ctx.reply("Acum se va porni serverul sefule")
     n = nostalgia.start()
@@ -38,15 +38,8 @@ async def porneste(ctx, key):
         await ctx.send(f"Sefu {ctx.author.mention} nu a pornit serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
-async def opreste(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de oprit serverul, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def opreste(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de oprit serverul")
     print(f"{ctx.author} a oprit serverul")
     await ctx.reply("Acum se va opri serverul sefule")
     n = nostalgia.stop()
@@ -56,15 +49,8 @@ async def opreste(ctx):
         await ctx.send(f"Sefu {ctx.author.mention} nu a oprit serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
-async def informatii(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de lua niste informatii despre server, dar a gresit cheia de autentificare")
-        await ctx.reply("Ai gresit cheia de autentificare")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def informatii(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a cere niste informatii despre server")
     print(f"{ctx.author} a cerut niste informatii despre server")
     await ctx.reply("Ai cerut niste informatii despre server sefule")
     info = nostalgia.get_servers_info()
@@ -88,15 +74,8 @@ async def informatii(ctx):
     await ctx.send(f"Sefu {ctx.author.mention} a cerut niste informatii despre server")
 
 @talgic.command()
-async def verificare(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a cere o verificare a serveruluui, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def verificare(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a cere o verificare despre server")
     print(f"{ctx.author} a cerut o verificare")
     nostalgia.renew()
     await ctx.reply(f"Ai cerut o verificare sefule, verifica cu {prefixu}verifica textul-ce-apare-in-imagine")
@@ -104,33 +83,18 @@ async def verificare(ctx):
     await ctx.send(f'{ctx.author.mention} a cerut o verificare')
 
 @talgic.command()
-async def verifica(ctx, text):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a verifica serverul, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def verifica(ctx, text, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a verifica despre server")
     print(f"{ctx.author} a facut o verificare cu textul {text}")
     n = nostalgia.renew_submit(text)
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda verificare odata")
     else:
-        ai.save_to_set_db("captcha.png", text)
-        await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
+        await ctx.reply("Gata sefule")
 
 @talgic.command()
-async def stats(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a cere niste statistici despre server, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def stats(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a cere niste statistici despre server")
     print(f"{ctx.author} a cerut informatiile serverului")
     sv_stats = nostalgia.get_servers_statistics()
     await ctx.reply("Ai cerut informatiile despre server")
@@ -138,15 +102,8 @@ async def stats(ctx):
     await ctx.send(f"Sefu {ctx.author.mention} a cerut statistici despre server.")
 
 @talgic.command()
-async def reverificare(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de cere o reverificare a serverului, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def reverificare(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a cere o reverificare despre server")
     print(f"{ctx.author} a cerut o reverificare a serverului")
     nostalgia.resume()
     await ctx.reply(f"Ai cerut o reverificare sefule, reverifica cu {prefixu}reverifica textul-ce-apare-in-imagine")
@@ -154,33 +111,18 @@ async def reverificare(ctx):
     await ctx.send(f'{ctx.author.mention} a cerut o reverificare')
 
 @talgic.command()
-async def reverifica(ctx, text):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de reverifica serverul, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def reverifica(ctx, text, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a reverifica serverul")
     print(f"{ctx.author} a facut o reverificare cu textul {text}")
     n = nostalgia.resume_submit(text)
     if n == "NOT OK":
         await ctx.reply("Nu e ok, mai fa comanda o data, sau mai da comanda reverificare odata")
     else:
-        ai.save_to_set_db("captcha.png", text)
-        await ctx.reply("Gata sefule, si s-a salvat captcha-u pt a antrena ai-ul")
+        await ctx.reply("Gata sefule")
 
 @talgic.command()
-async def restart(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a restarta serverul, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def restart(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a da restart la server")
     print(f"{ctx.author} a restartat serverul")
     await ctx.reply("Acum se va restarta serverul sefule")
     n = nostalgia.restart()
@@ -190,15 +132,8 @@ async def restart(ctx):
         await ctx.send(f"Sefu {ctx.author.mention} nu a restartat serverul din cauza unei PRRRRRbleme")
 
 @talgic.command()
-async def backup(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a face backup la server, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def backup(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a face backup la server")
     print(f"{ctx.author} a cerut un backup la server")
     await ctx.reply("Acum se va face backup sefule")
     n = nostalgia.backup()
@@ -207,15 +142,8 @@ async def backup(ctx):
     await ctx.send(f"Sefu {ctx.author.mention} a facut backup serverului")
     
 @talgic.command()
-async def backupuri(ctx):
-    lista_alba = whitelist("citeste")
-    if ctx.author.id in lista_alba:
-        print(f"{ctx.author} a incercat de a cere lista backupurilor la server, dar a gresit cheia de autentificare")
-        await ctx.reply("Mananci cacat")
-        asta_primesti(ctx.author.name)
-        await ctx.reply(file=discord.File('cac.png'))
-        os.remove("cac.png")
-        return
+async def backupuri(ctx, key):
+    trustedman.check_key(talgic, ctx, key, sup="de a cere niste backupuri despre server")
     print(f"{ctx.author} a cerut lista backupurilor la server")
     await ctx.reply("Acum se va lua lista backupurilor sefule")
     n = nostalgia.retrieve_backups()
