@@ -63,5 +63,5 @@ async def send_key(client, key):
         trustedtrusted = client.get_user(int(tr))
         print(trustedtrusted)
         await trustedtrusted.send(
-            f"Aici este noua cheie : \n{key}"
+            f"Aici este noua cheie : \n{auth.distribute_key(key)}"
         )

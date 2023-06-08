@@ -39,13 +39,15 @@ def generate_key():
 
 # distributes the key via a readable form, so converting it to base64 would make it a string 
 
-# def distribute_key(key : bytes):
+def distribute_key(key : str):
+    return key.replace('"', "quotm")
 #     # print(f"distributed key is {base64.b64encode(key).decode()}")
 #     return base64.b64encode(key).decode()
 
 # since we want to verify it later, it would be nice if we could have the original form of the key
 
-# def receive_key(key : str):
+def receive_key(key : str):
+    return key.replace("quotm", '"')
 #     # print(f"To receive key : {key}\nreceived key is {bytes(base64.b64decode(key))}")
 
 #     # return f"b'{base64.b64decode(key)}'"
@@ -59,7 +61,7 @@ def generate_key():
 
 def verify_key(received_key : str):
     #print(f"Cheia corecta : {load_key()}\nCheia incercata: {receive_key(received_key)}")
-    return received_key == load_key()
+    return receive_key(received_key) == load_key()
 
 # send the new keys to the one and only MAN
 
