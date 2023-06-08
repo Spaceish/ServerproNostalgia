@@ -51,6 +51,7 @@ endpoints = {
     "server files get" : "server/files/get", # host dependant
     # "server send" : "server/send", # host dependant
     "server files tar" : "files/tar", # host dependant
+    "server queue state" : f"{base}api/queue/state" 
 }
 
 # response = requests.post(endpoints["user info"], cookies=cookies, headers=headers, data=data)
@@ -153,20 +154,31 @@ def resume():
 def resume_submit(text):
     sv_info = get_servers_info()
     id = sv_info[0]
-    config = {
-        "id" : id,
-        "plan" : "free",
-        "pack" : "low",
-        "name" : sv_info[2],
-        "service" : "mc",
-        "typeId" : 1414,
-        "location" : "ca",
-        "price" : 0,
-        "payment" : "",
-        "captcha" : text,
-        "token" : ""
-    }
-    res = requests.post(endpoints["server resume enqueue"], cookies=cookies, headers=headers, data=config)
+    with open("config/plan", "r") as pl:
+        plan = pl.read().replace(
+            "$text", text
+        ).replace(
+            "$id", id
+        ).replace(
+            "$sv_info", sv_info[2]
+        )
+    print(plan)
+    plan = json.loads(plan)
+    print(plan)
+    # config = {
+    #     "id" : id,
+    #     "plan" : "free",
+    #     "pack" : "low",
+    #     "name" : sv_info[2],
+    #     "service" : "mc",
+    #     "typeId" : 1414,
+    #     "location" : "fr",
+    #     "price" : 0,
+    #     "payment" : "",
+    #     "captcha" : text,
+    #     "token" : ""
+    # }
+    res = requests.post(endpoints["server resume enqueue"], cookies=cookies, headers=headers, data=plan)
     rsp = res.json()
     if rsp["result"] == "transfer":
         print("OK")

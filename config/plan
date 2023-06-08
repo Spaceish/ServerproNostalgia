@@ -1,0 +1,13 @@
+{
+        "id" : $id,
+        "plan" : "free",
+        "pack" : "low",
+        "name" : "$sv_info",
+        "service" : "mc",
+        "typeId" : 1414,
+        "location" : "fr",
+        "price" : 0,
+        "payment" : "",
+        "captcha" : "$text",
+        "token" : ""
+}

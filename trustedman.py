@@ -1,5 +1,6 @@
 import auth
 import discord
+from discord.ext import commands
 from PIL import Image
 from PIL import ImageDraw
 import os
@@ -34,7 +35,7 @@ def whitelist(comanda, id=None):
         with open("config/whitelist", "a") as wl:
             wl.write(id)
 
-async def check_key(client, ctx, key, sup="test"):
+async def check_key(client : discord.Client, ctx : commands.Context, key, sup="test"):
     flag = auth.verify_key(key)
     if flag == False:
         print(f"{ctx.author} a incercat {sup}, dar a gresit cheia de autentificare")
@@ -56,12 +57,17 @@ async def check_key(client, ctx, key, sup="test"):
         # return new_key
         
     
-async def send_key(client, key):
+async def send_key(client : discord.Client, key):
     trusted = auth.retrieve_trustedman()
+    trustedmans = []
     print(trusted)
     for tr in trusted:
         trustedtrusted = client.get_user(int(tr))
+        mention = trustedtrusted.mention
         print(trustedtrusted)
         await trustedtrusted.send(
             f"Aici este noua cheie : \n{auth.distribute_key(key)}"
         )
+        trustedmans.append(mention)
+    canal = client.get_channel(1048317841478275145)
+    await canal.send(f"@everyone o cheie s-a generat, pentru a putea folosi comenzi, luati-o de la oamenii astia de incredere : \n{[men for men in trustedmans]}")
