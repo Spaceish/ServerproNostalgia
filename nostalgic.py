@@ -26,7 +26,7 @@ async def test(ctx, key):
 
 @talgic.command()
 async def porneste(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de pornit serverul"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de pornit serverul") == False: return
     print(f"{ctx.author} a pornit serverul")
     await ctx.reply("Acum se va porni serverul sefule")
     n = nostalgia.start()
@@ -39,7 +39,7 @@ async def porneste(ctx, key):
 
 @talgic.command()
 async def opreste(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de oprit serverul"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de oprit serverul") == False: return
     print(f"{ctx.author} a oprit serverul")
     await ctx.reply("Acum se va opri serverul sefule")
     n = nostalgia.stop()
@@ -50,7 +50,7 @@ async def opreste(ctx, key):
 
 @talgic.command()
 async def informatii(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste informatii despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste informatii despre server") == False: return
     print(f"{ctx.author} a cerut niste informatii despre server")
     await ctx.reply("Ai cerut niste informatii despre server sefule")
     info = nostalgia.get_servers_info()
@@ -75,7 +75,7 @@ async def informatii(ctx, key):
 
 @talgic.command()
 async def verificare(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a cere o verificare despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a cere o verificare despre server") == False: return
     print(f"{ctx.author} a cerut o verificare")
     nostalgia.renew()
     await ctx.reply(f"Ai cerut o verificare sefule, verifica cu {prefixu}verifica textul-ce-apare-in-imagine")
@@ -84,7 +84,7 @@ async def verificare(ctx, key):
 
 @talgic.command()
 async def verifica(ctx, text, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a verifica despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a verifica despre server") == False: return
     print(f"{ctx.author} a facut o verificare cu textul {text}")
     n = nostalgia.renew_submit(text)
     if n == "NOT OK":
@@ -94,7 +94,7 @@ async def verifica(ctx, text, key):
 
 @talgic.command()
 async def stats(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste statistici despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste statistici despre server") == False: return
     print(f"{ctx.author} a cerut informatiile serverului")
     sv_stats = nostalgia.get_servers_statistics()
     await ctx.reply("Ai cerut informatiile despre server")
@@ -103,7 +103,7 @@ async def stats(ctx, key):
 
 @talgic.command()
 async def reverificare(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a cere o reverificare despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a cere o reverificare despre server") == False: return
     print(f"{ctx.author} a cerut o reverificare a serverului")
     nostalgia.resume()
     await ctx.reply(f"Ai cerut o reverificare sefule, reverifica cu {prefixu}reverifica textul-ce-apare-in-imagine")
@@ -112,7 +112,7 @@ async def reverificare(ctx, key):
 
 @talgic.command()
 async def reverifica(ctx, text, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a reverifica serverul"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a reverifica serverul") == False: return
     print(f"{ctx.author} a facut o reverificare cu textul {text}")
     n = nostalgia.resume_submit(text)
     if n == "NOT OK":
@@ -133,7 +133,7 @@ async def restart(ctx, key):
 
 @talgic.command()
 async def backup(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a face backup la server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a face backup la server") == False: return
     print(f"{ctx.author} a cerut un backup la server")
     await ctx.reply("Acum se va face backup sefule")
     n = nostalgia.backup()
@@ -143,7 +143,7 @@ async def backup(ctx, key):
     
 @talgic.command()
 async def backupuri(ctx, key):
-    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste backupuri despre server"): return
+    if await trustedman.check_key(talgic, ctx, key, sup="de a cere niste backupuri despre server") == False: return
     print(f"{ctx.author} a cerut lista backupurilor la server")
     await ctx.reply("Acum se va lua lista backupurilor sefule")
     n = nostalgia.retrieve_backups()
