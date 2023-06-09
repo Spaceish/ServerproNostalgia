@@ -84,7 +84,7 @@ async def send_key(client : discord.Client, key):
             mention = trustedtrusted.mention
             print(trustedtrusted)
             await trustedtrusted.send(
-                f"Aici este siteu unde poti vedea noua cheie : \n{auth.start_backend_tunnel()}"
+                f"Aici este siteu unde poti vedea noua cheie : \n{auth.retrieve_tunnel()}"
             )
             trustedmans.append(mention)
         canal = client.get_channel(1048317841478275145)

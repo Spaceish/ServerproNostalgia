@@ -7,7 +7,9 @@ import requests
 if os.name == "nt":
     from pyngrok import ngrok
 import os
-# import subprocess
+if os.name == "nt":
+    import subprocess
+from pymongo import MongoClient
 
 # key = bytes(crypto.get_random_bytes(32))
 # print(key)
@@ -17,6 +19,10 @@ import os
 # print(key)
 # print(base64.b64decode(key))
 
+lk = "mongodb+srv://xalexclashroyale:canusmp@smp.j5jtcsr.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(lk)
+db = client["smp"]
+col = db["tunel"]
 
 # loads a key
 
@@ -86,21 +92,25 @@ def post_key(key):
     print("S-a postat cheiea pe site")
 
 # def start_backend():
-#     subprocess.Popen('"config/start backend.bat"')
+#     if os.name == "nt":
+#         subprocess.Popen('"config/CanuSMP.bat"')
 
-def start_backend_tunnel():
-    if os.name != "nt":
-        print("Nu esti pe nogork")
-        return
-    tunnel : ngrok.NgrokTunnel = ngrok.connect()
-    print(f"Gata sefu, tunelu e gata pe {tunnel.public_url}")
-    return tunnel.public_url
+# def start_backend_tunnel():
+#     if os.name != "nt":
+#         print("Nu esti pe nogork")
+#         return
+#     tunnel : ngrok.NgrokTunnel = ngrok.connect()
+#     print(f"Gata sefu, tunelu e gata pe {tunnel.public_url}")
+#     return tunnel.public_url
 
-def stop_backend_tunnel():
-    if os.name != "nt":
-        print("Nu esti pe nogork")
-        return
-    tunnels = ngrok.get_tunnels()
-    tun = tunnels[0]
-    ngrok.disconnect(tun)
-    print("S-a deconectat tunelu")
+# def stop_backend_tunnel():
+#     if os.name != "nt":
+#         print("Nu esti pe nogork")
+#         return
+#     tunnels = ngrok.get_tunnels()
+#     tun = tunnels[0]
+#     ngrok.disconnect(tun)
+#     print("S-a deconectat tunelu")
+def retrieve_tunnel():
+    tunel = col.find_one()["tunel"]
+    return tunel
