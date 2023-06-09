@@ -56,15 +56,15 @@ async def check_key(client : discord.Client, ctx : commands.Context, key, sup="t
         return True
         # return new_key
 
-def retrieve_site():
-    with open("config/ip", "r") as ip:
-        ip = ip.read()
-    with open("config/port", "r") as port:
-        port = port.read()
+# def retrieve_site():
+#     with open("config/ip", "r") as ip:
+#         ip = ip.read()
+#     with open("config/port", "r") as port:
+#         port = port.read()
     
-    site = f"http://{ip}:{port}"
+#     site = f"http://{ip}:{port}"
     
-    return site
+#     return site
 
 def retrieve_once():
     with open("config/site_once", "r") as once:
@@ -84,7 +84,7 @@ async def send_key(client : discord.Client, key):
             mention = trustedtrusted.mention
             print(trustedtrusted)
             await trustedtrusted.send(
-                f"Aici este siteu unde poti vedea noua cheie : \n{retrieve_site()}"
+                f"Aici este siteu unde poti vedea noua cheie : \n{auth.start_backend_tunnel()}"
             )
             trustedmans.append(mention)
         canal = client.get_channel(1048317841478275145)

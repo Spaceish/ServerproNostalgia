@@ -4,8 +4,8 @@ import monocypher
 # import re
 import trustedman
 import requests
-from pyngrok
-# import os
+from pyngrok import ngrok
+import os
 # import subprocess
 
 # key = bytes(crypto.get_random_bytes(32))
@@ -88,3 +88,18 @@ def post_key(key):
 #     subprocess.Popen('"config/start backend.bat"')
 
 def start_backend_tunnel():
+    if os.name != "nt":
+        print("Nu esti pe nogork")
+        return
+    tunnel : ngrok.NgrokTunnel = ngrok.connect()
+    print(f"Gata sefu, tunelu e gata pe {tunnel.public_url}")
+    return tunnel.public_url
+
+def stop_backend_tunnel():
+    if os.name != "nt":
+        print("Nu esti pe nogork")
+        return
+    tunnels = ngrok.get_tunnels()
+    tun = tunnels[0]
+    ngrok.disconnect(tun)
+    print("S-a deconectat tunelu")
