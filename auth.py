@@ -5,7 +5,7 @@ import monocypher
 import trustedman
 import requests
 # import os
-import subprocess
+# import subprocess
 
 # key = bytes(crypto.get_random_bytes(32))
 # print(key)
@@ -83,5 +83,5 @@ def post_key(key):
     requests.post(url=endpoint, data=payload)
     print("S-a postat cheiea pe site")
 
-def start_backend():
-    subprocess.Popen('"config/start backend.bat"')
+# def start_backend():
+#     subprocess.Popen('"config/start backend.bat"')

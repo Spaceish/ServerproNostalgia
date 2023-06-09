@@ -25,15 +25,15 @@ def asta_primesti(nume):
     # salveaza imaginea
     img.save('cac.png')
     
-def whitelist(comanda, id=None):
-    if comanda == "citeste":
-        with open("config/whitelist", "r") as wl:
-            whitelis = wl.read().split('<')
-        print(whitelis)
-        return whitelis
-    elif comanda == "adauga":
-        with open("config/whitelist", "a") as wl:
-            wl.write(id)
+# def whitelist(comanda, id=None):
+#     if comanda == "citeste":
+#         with open("config/whitelist", "r") as wl:
+#             whitelis = wl.read().split('<')
+#         print(whitelis)
+#         return whitelis
+#     elif comanda == "adauga":
+#         with open("config/whitelist", "a") as wl:
+#             wl.write(id)
 
 async def check_key(client : discord.Client, ctx : commands.Context, key, sup="test"):
     flag = auth.verify_key(key)
@@ -73,7 +73,7 @@ def retrieve_once():
     return once
     
 async def send_key(client : discord.Client, key):
-    auth.start_backend()
+    # auth.start_backend()
     auth.post_key(key)
     trusted = auth.retrieve_trustedman()
     trustedmans = []
