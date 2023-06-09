@@ -13,7 +13,7 @@ def start_tunnel():
     if os.name != "nt":
         print("Nu esti pe nogork")
         return
-    tunnel : ngrok.NgrokTunnel = ngrok.connect()
+    tunnel : ngrok.NgrokTunnel = ngrok.connect(3000, "http")
     print(f"Gata sefu, tunelu e gata pe {tunnel.public_url}")
     tun = tunnel.public_url
     col.update_one({}, {"$set": {"tunel": tun}}, upsert=True)
