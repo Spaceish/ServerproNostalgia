@@ -31,4 +31,4 @@ try:
     start_tunnel()
 except KeyboardInterrupt:
     stop_tunnnel()
-    exit(13)
+    # exit(13)
