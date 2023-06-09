@@ -55,19 +55,47 @@ async def check_key(client : discord.Client, ctx : commands.Context, key, sup="t
         await send_key(client, new_key)
         return True
         # return new_key
-        
+
+def retrieve_site():
+    with open("config/ip", "r") as ip:
+        ip = ip.read()
+    with open("config/port", "r") as port:
+        port = port.read()
+    
+    site = f"http://{ip}:{port}"
+    
+    return site
+
+def retrieve_once():
+    with open("config/site_once", "r") as once:
+        once = once.read()
+    
+    return once
     
 async def send_key(client : discord.Client, key):
+    auth.post_key(key)
     trusted = auth.retrieve_trustedman()
     trustedmans = []
     print(trusted)
-    for tr in trusted:
-        trustedtrusted = client.get_user(int(tr))
-        mention = trustedtrusted.mention
-        print(trustedtrusted)
-        await trustedtrusted.send(
-            f"Aici este noua cheie : \n{auth.distribute_key(key)}"
-        )
-        trustedmans.append(mention)
-    canal = client.get_channel(1048317841478275145)
-    await canal.send(f"@everyone o cheie s-a generat, pentru a putea folosi comenzi, luati-o de la oamenii astia de incredere : \n{[men for men in trustedmans]}")
+    if retrieve_once() == "nu":
+        for tr in trusted:
+            trustedtrusted = client.get_user(int(tr))
+            mention = trustedtrusted.mention
+            print(trustedtrusted)
+            await trustedtrusted.send(
+                f"Aici este siteu unde poti vedea noua cheie : \n{retrieve_site()}"
+            )
+            trustedmans.append(mention)
+        canal = client.get_channel(1048317841478275145)
+        await canal.send(f"@everyone o cheie s-a generat, pentru a putea folosi comenzi, luati-o de la oamenii astia de incredere : \n{[men for men in trustedmans]}")
+        
+        with open("config/site", "w") as once:
+            once.write("da")
+    else:
+        for tr in trusted:
+            trustedtrusted = client.get_user(int(tr))
+            mention = trustedtrusted.mention
+            print(trustedtrusted)
+            trustedmans.append(mention)
+        canal = client.get_channel(1048317841478275145)
+        await canal.send(f"@everyone o cheie s-a generat, pentru a putea folosi comenzi, luati-o de la oamenii astia de incredere : \n{[men for men in trustedmans]}")

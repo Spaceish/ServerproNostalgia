@@ -2,6 +2,9 @@ import Crypto.Random
 import monocypher
 import base64
 import re
+import trustedman
+import requests
+import os
 
 # key = bytes(crypto.get_random_bytes(32))
 # print(key)
@@ -69,3 +72,15 @@ def retrieve_trustedman():
     with open('config/trusted-man', 'r') as trusted_man:
         trusted = trusted_man.readlines()
     return list(trusted)
+
+def post_key(key):
+    payload = {
+        "key" : key
+    }
+    site = trustedman.retrieve_site()
+    endpoint = f"{site}/key"
+    requests.post(url=endpoint, data=payload)
+    print("S-a postat cheiea pe site")
+
+def start_backend():
+    os.system('"config/start backend.bat"')
