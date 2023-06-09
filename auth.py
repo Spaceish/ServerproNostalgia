@@ -84,4 +84,4 @@ def post_key(key):
     print("S-a postat cheiea pe site")
 
 def start_backend():
-    subprocess.call('"config/start backend.bat"')
+    subprocess.run('"config/start backend.bat"')
