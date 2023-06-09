@@ -4,11 +4,6 @@ import monocypher
 # import re
 import trustedman
 import requests
-import os
-if os.name == "nt":
-    from pyngrok import ngrok
-if os.name == "nt":
-    import subprocess
 from pymongo import MongoClient
 
 # key = bytes(crypto.get_random_bytes(32))
@@ -82,11 +77,15 @@ def retrieve_trustedman():
         trusted = trusted_man.readlines()
     return list(trusted)
 
+def retrieve_tunnel():
+    tunel = col.find_one()["tunel"]
+    return tunel
+
 def post_key(key):
     payload = {
         "key" : key
     }
-    site = trustedman.retrieve_site()
+    site = retrieve_tunnel()
     endpoint = f"{site}/key"
     requests.post(url=endpoint, data=payload)
     print("S-a postat cheiea pe site")
@@ -111,6 +110,3 @@ def post_key(key):
 #     tun = tunnels[0]
 #     ngrok.disconnect(tun)
 #     print("S-a deconectat tunelu")
-def retrieve_tunnel():
-    tunel = col.find_one()["tunel"]
-    return tunel
