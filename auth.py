@@ -1,10 +1,11 @@
 import Crypto.Random
 import monocypher
-import base64
-import re
+# import base64
+# import re
 import trustedman
 import requests
-import os
+# import os
+import subprocess
 
 # key = bytes(crypto.get_random_bytes(32))
 # print(key)
@@ -83,4 +84,4 @@ def post_key(key):
     print("S-a postat cheiea pe site")
 
 def start_backend():
-    os.system('"config/start backend.bat"')
+    subprocess.call('"config/start backend.bat"')
