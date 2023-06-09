@@ -2,7 +2,6 @@ import Crypto.Random
 import monocypher
 # import base64
 # import re
-import trustedman
 import requests
 from pymongo import MongoClient
 
