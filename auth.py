@@ -82,7 +82,7 @@ def retrieve_tunnel():
 
 def post_key(key):
     payload = {
-        "key" : key
+        "key" : str(key)
     }
     site = retrieve_tunnel()
     endpoint = f"{site}/key"
