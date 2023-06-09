@@ -4,7 +4,8 @@ import monocypher
 # import re
 import trustedman
 import requests
-from pyngrok import ngrok
+if os.name == "nt":
+    from pyngrok import ngrok
 import os
 # import subprocess
 
