@@ -27,8 +27,10 @@ def stop_tunnnel():
     ngrok.disconnect(tun)
     print("A cazut tunelu")
 
+start_tunnel()
+
 try:
-    start_tunnel()
+    while True:
+        pass
 except KeyboardInterrupt:
     stop_tunnnel()
-    # exit(13)
