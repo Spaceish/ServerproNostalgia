@@ -4,9 +4,9 @@ import monocypher
 # import re
 import trustedman
 import requests
+import os
 if os.name == "nt":
     from pyngrok import ngrok
-import os
 if os.name == "nt":
     import subprocess
 from pymongo import MongoClient
