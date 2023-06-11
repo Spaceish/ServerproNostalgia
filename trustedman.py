@@ -41,6 +41,7 @@ async def check_key(client : discord.Client, ctx : commands.Context, key, sup="t
         await ctx.send("hei gagica esti singur, ai uitat sa pui cheia ba sefule :rage:")
         return
     flag = auth.verify_key(key)
+    
     if flag == False and key != "hopa":
         print(f"{ctx.author} a incercat {sup}, dar a gresit cheia de autentificare")
         await ctx.send(f"{ctx.author.mention} a incercat {sup}, dar a gresit cheia de autentificare")
@@ -52,12 +53,12 @@ async def check_key(client : discord.Client, ctx : commands.Context, key, sup="t
         new_key = auth.generate_key()
         await send_key(client, new_key)
         return False
-    else:
-        await ctx.send("Este ok. Te-ai autentificat cu succes sefule.")
-        await ctx.send(f"Cheia anterioara a fost {auth.load_key()}, s-a generat una noua")
-        new_key = auth.generate_key()
-        await send_key(client, new_key)
-        return True
+    
+    await ctx.send("Este ok. Te-ai autentificat cu succes sefule.")
+    await ctx.send(f"Cheia anterioara a fost {auth.load_key()}, s-a generat una noua")
+    new_key = auth.generate_key()
+    await send_key(client, new_key)
+    return True
         # return new_key
 
 # def retrieve_site():
