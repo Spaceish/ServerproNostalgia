@@ -39,9 +39,9 @@ async def check_key(client : discord.Client, ctx : commands.Context, key, sup="t
     if key == "hopa":
         print("key is none , hopa")
         await ctx.send("hei gagica esti singur, ai uitat sa pui cheia ba sefule :rage:")
-        pass
+        return
     flag = auth.verify_key(key)
-    if flag == False:
+    if flag == False and key != "hopa":
         print(f"{ctx.author} a incercat {sup}, dar a gresit cheia de autentificare")
         await ctx.send(f"{ctx.author.mention} a incercat {sup}, dar a gresit cheia de autentificare")
         await ctx.reply("Mananci cacat")
