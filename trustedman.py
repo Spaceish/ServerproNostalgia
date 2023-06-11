@@ -36,6 +36,10 @@ def asta_primesti(nume):
 #             wl.write(id)
 
 async def check_key(client : discord.Client, ctx : commands.Context, key, sup="test"):
+    if key == None:
+        print("key is none , hopa")
+        await ctx.send("hei gagica esti singur, ai uitat sa pui cheia ba sefule :rage:")
+        return
     flag = auth.verify_key(key)
     if flag == False:
         print(f"{ctx.author} a incercat {sup}, dar a gresit cheia de autentificare")
