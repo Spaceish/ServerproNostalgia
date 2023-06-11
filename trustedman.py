@@ -36,7 +36,7 @@ def asta_primesti(nume):
 #             wl.write(id)
 
 async def check_key(client : discord.Client, ctx : commands.Context, key, sup="test"):
-    if key is None:
+    if type(key) == None:
         print("key is none , hopa")
         await ctx.send("hei gagica esti singur, ai uitat sa pui cheia ba sefule :rage:")
         return
