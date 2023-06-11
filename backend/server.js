@@ -22,6 +22,9 @@ app.use(express.json());
 // Endpoint to fetch the key
 app.post('/key', (req, res) => {
     const key = req.query.key;
+    console.log("query " + req.query)
+    console.log("params " + req.params.dictionary)
+    console.log("body " + req.body)
     console.log(key)
     canudbWrite("chei", key);
     res.send("Key received and written to the database.");
@@ -29,7 +32,7 @@ app.post('/key', (req, res) => {
 
 app.get('/key-rec', (req, res) => {
     canudbRead("chei", function (key) {
-        console.log("Key received and read from the database.");
+        console.log("Key received and read from the database. " + key);
         res.send({ key: key });
     });
 });

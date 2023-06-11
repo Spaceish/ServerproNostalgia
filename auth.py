@@ -86,7 +86,7 @@ def post_key(key):
     }
     site = retrieve_tunnel()
     endpoint = f"{site}/key"
-    requests.post(url=endpoint, data=payload)
+    requests.post(url=endpoint, params=payload)
     print("S-a postat cheiea pe site")
 
 # def start_backend():
