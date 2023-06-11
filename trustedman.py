@@ -78,7 +78,7 @@ def retrieve_once():
     
 async def send_key(client : discord.Client, key):
     # auth.start_backend()
-    auth.post_key(key)
+    auth.post_key(auth.distribute_key(key))
     trusted = auth.retrieve_trustedman()
     trustedmans = []
     print(trusted)
